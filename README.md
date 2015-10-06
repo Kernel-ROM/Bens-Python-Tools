@@ -7,9 +7,9 @@ These are perfect for deployment on a targets system as a lot of A/V products wi
 
 This tool is essentially an undetected reverse shell written using the Python socket module.
 
-*Phase One: Start a netcat listening server the usual way.
-*Phase Two: Get the target user to launch pycurious.
-*Phase Three: ???
-*Phase Four: **Profit!**
+- Phase One: Start a netcat listening server the usual way.
+- Phase Two: Get the target user to launch pycurious.
+- Phase Three: ???
+- Phase Four: **Profit!**
 
 ## isPy
