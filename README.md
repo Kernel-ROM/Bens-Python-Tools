@@ -13,3 +13,5 @@ This tool is essentially an undetected reverse shell written using the Python so
 - Phase Four: **Profit!**
 
 ## isPy
+
+This is a very small, yet highly flexible python keylogger
