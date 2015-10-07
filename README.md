@@ -3,7 +3,7 @@ A collection of useful or malicious python scripts created for educational purpo
 
 These are perfect for deployment on a targets system as a lot of A/V products will white-list python applications. Coupled with a freezing utility like [py2exe](http://www.py2exe.org/) or [pyinstaller](http://www.pyinstaller.org/), these can be executed on any Windows machine regardless of whether python is installed or not!
 
-## pycurious
+## Pycurious
 
 This tool is essentially an undetected reverse shell written using the Python socket module.
 
