@@ -14,4 +14,4 @@ This tool is essentially an undetected reverse shell written using the Python so
 
 ## isPy
 
-This is a very small, yet highly flexible python keylogger
+This is a very small, yet highly flexible python keylogger (WIP)
