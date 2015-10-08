@@ -42,5 +42,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
+# Dev files
 setup.py*
+*.log
