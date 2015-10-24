@@ -54,7 +54,7 @@ def main():
 			Dir = shlex.split(data)
 			data = ""
 			try:
-				os.chdir('"'+Dir[1]+'"')
+				os.chdir(Dir[1])
 			except:
 				sock.send("Unknown Dir or Drive\n")
 			pass
