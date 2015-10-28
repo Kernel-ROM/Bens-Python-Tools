@@ -15,3 +15,7 @@ This tool is essentially an undetected reverse shell written using the Python so
 ## isPy
 
 This is a very small, yet highly flexible python keylogger (WIP)
+
+## String Hasher
+
+This is a quick and dirty script put together to allow you to hash a string via many different algorithms
