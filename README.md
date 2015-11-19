@@ -12,6 +12,19 @@ This tool is essentially an undetected reverse shell written using the Python so
 - Phase Three: ???
 - Phase Four: **Profit!**
 
+Custom Commands:
+	qqq - Close connection
+	winstart! - Moves itself to the windows startup folder for persistence
+	FUBAR! - Closes the connection and deletes itself in case of detection
+
+## Luhn Checker + Bruteforcer
+
+This program allows you to check if a given number passes the Luhn algorithm test. This is the algorithm used extensively by banks and websites to verify credit and debit cards, however this is kind of <b>BORING!</b>
+
+The exciting feature is that if you replace any digit with a question mark, it will brute-force the values until it finds combinations of integers that satisfy the Luhn algorithm.
+
+Pro tip: Don't post pictures of your credit card on the internet, thinking you're safe because you covered the last digits with your finger...
+
 ## isPy
 
 This is a very small, yet highly flexible python keylogger (WIP)
