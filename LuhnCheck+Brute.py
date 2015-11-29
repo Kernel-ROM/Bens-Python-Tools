@@ -61,5 +61,6 @@ def main():
 				ccl[missingno[j]] = split[j]
 			if luhnbool(ccl) == True:
 				print "  " + brute[i][::-1]
+				
 if __name__ == "__main__":
     main()
