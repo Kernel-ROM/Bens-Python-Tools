@@ -2,9 +2,9 @@ import random
 from fractions import gcd
 
 def Demo():
-	# pre-computed primes
-	primes = [11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
-	47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101]
+	print "\n***************\n* Setup Stage *\n***************\n"
+	# compute list of primes below a certain number
+	primes = Primes(100)
 
 	# choose two randomly, ensuring they're different
 	p = primes[random.randrange(len(primes)-1)]
@@ -26,7 +26,7 @@ def Demo():
 		# gcd = Greatest Common Divisor
 		if (gcd(i, totient) == 1):
 			plist.append(i)
-	print plist
+	# print plist
 	# Public(e) is then chosen randomly from list of ints
 	PublicKey = plist[random.randrange(len(plist)-1)]
 	print "\nStep 4: Random Public Key = %d" % PublicKey
@@ -44,14 +44,15 @@ def Demo():
 		else:
 			i = i+1
 	PrivateKey = i
-	print "\nStep 5: Private Key = %d" % PrivateKey
+	print "\nStep 5: Private Key = %d\n" % PrivateKey
 
+	print "*************************\n* Encrypt/Decrypt Stage *\n*************************"
 	ciphertext = Encrypt(plaintext, PublicKey, ProductOfPrime)
 	decryptext = Decrypt(ciphertext, PrivateKey, ProductOfPrime)
 
-	print "\n\nPlaintext is %d" % plaintext
-	print "\nEncrypted text is %d" % ciphertext
-	print "\nDecrypted text is %d" % decryptext
+	print "\nPlaintext is: %d" % plaintext
+	print "\nEncrypted text is: %d" % ciphertext
+	print "\nDecrypted text is: %d" % decryptext
 	return
 
 def Encrypt(plaintext, publicKey, PoP):
@@ -59,6 +60,14 @@ def Encrypt(plaintext, publicKey, PoP):
 
 def Decrypt(ciphertext, privateKey, PoP):
 	return(ciphertext**privateKey % PoP)
+
+def Primes(n):
+	# Returns list of primes < n
+	sieve = [True] * n
+	for i in xrange(3,int(n**0.5)+1,2):
+		if sieve[i]:
+			sieve[i*i::2*i]=[False]*((n-i*i-1)/(2*i)+1)
+	return [2] + [i for i in xrange(3,n,2) if sieve[i]]
 
 # Choose random plaintext int 1-99
 plaintext = random.randrange(1,99)
