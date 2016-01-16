@@ -62,7 +62,7 @@ def Decrypt(ciphertext, privateKey, PoP):
 	return(ciphertext**privateKey % PoP)
 
 def Primes(n):
-	# Returns list of primes < n
+	# return list of primes < n
 	sieve = [True] * n
 	for i in xrange(3,int(n**0.5)+1,2):
 		if sieve[i]:
