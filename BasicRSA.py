@@ -4,7 +4,7 @@ from fractions import gcd
 def Demo():
 	print "\n***************\n* Setup Stage *\n***************\n"
 	# compute list of primes below a certain number
-	primes = Primes(100)
+	primes = Primes(1000)
 
 	# choose two randomly, ensuring they're different
 	p = primes[random.randrange(len(primes)-1)]
@@ -12,7 +12,7 @@ def Demo():
 	q = primes[random.randrange(len(primes)-1)]
 
 	print "Step 1: p=%d & q=%d" % (p,q)
-	# Determine the product of p & q
+	# Determine the product(n) of p & q
 	ProductOfPrime = p*q
 	print "\nStep 2: p*q = %d" % ProductOfPrime
 
@@ -70,5 +70,5 @@ def Primes(n):
 	return [2] + [i for i in xrange(3,n,2) if sieve[i]]
 
 # Choose random plaintext int 1-99
-plaintext = random.randrange(1,99)
+plaintext = random.randrange(1,999)
 Demo()
