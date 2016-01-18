@@ -28,11 +28,25 @@ The <b>exciting</b> feature is that if you replace any digit with a question mar
 <b>Pro tip: Don't post pictures of your credit card on the internet, thinking you're safe because you covered the last digits with your finger...</b>
 
 
+## ExternalIP
+
+Does what it says on the tin, queries an external API to determine your external IP address
+
 ## isPy
 
-This is a very small, yet highly flexible python keylogger (WIP)
+This is a very small, highly flexible python keylogger with options to either record the keystrokes locally or email them back to the atacker...(WIP)
 
 
 ## String Hasher
 
-This is a quick and dirty script put together to allow you to hash a string via many different algorithms
+This is a quick and dirty script put together to allow you to hash any string via many different algorithms.
+
+
+## Basic RSA
+
+This is a very basic implementation of the RSA algorithm, for educational purposes only!
+
+
+## Basic Diffie
+
+This is a very basic implementation of the Diffie Hellman Key Exchange algorithm, for educational purposes only!
