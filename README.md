@@ -50,3 +50,12 @@ This is a very basic implementation of the RSA algorithm, for educational purpos
 ## Basic Diffie
 
 This is a very basic implementation of the Diffie Hellman Key Exchange algorithm, for educational purposes only!
+
+## Basic Stream Cipher
+
+This is a very basic implementation of a symmetric stream cipher, for educational purposes only!
+
+
+## ROT Encode/Decode + Bruteforcer
+
+This tool can encode & decode any ROT#. Also functions as a bruteforcer to determine ROT encoding based on common English language stop words.
