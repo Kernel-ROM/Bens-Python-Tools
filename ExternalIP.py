@@ -1,9 +1,11 @@
-import requests, sys
+"""Module connects to ipify's API and returns your external IP."""
+import requests
+import sys
 
 try:
-	response = requests.get("https://api.ipify.org/?format=json")
+    response = requests.get("https://api.ipify.org/?format=json")
 except:
-	print "Connection failed."
-	sys.exit(1)
+    print "Connection failed."
+    sys.exit(1)
 ip = response.json()
 print "\nYour external IP adress is: %s\n" % ip['ip']
