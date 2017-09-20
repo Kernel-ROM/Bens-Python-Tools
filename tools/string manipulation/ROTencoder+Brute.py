@@ -1,8 +1,8 @@
 import sys
 
 # Common English stop words
-words = ["the", "be", "to", "of", "and", "in", "that", "have", "i", "a",
-	"it", "for", "not", "on", "with", "this", "he", "as", "you", "do", "at"]
+words = ["the", "your", "to", "of", "and", "in", "that", "have", "i", "a", "puzzle",
+	"it", "for", "not", "on", "with", "this", "he", "you", "do", "at", "is", "job"]
 
 def encode(s, n):
 	# Keep n below 26
