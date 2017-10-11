@@ -10,7 +10,7 @@ from tqdm import tqdm
 import shodan
 import time
 
-SHODAN_API_KEY = "DWmCuMO4z1cOBMBzj3BFLRp4Oa21QzFv"
+SHODAN_API_KEY = "INSERT_KEY_HERE"
 
 
 def do_thread_work(args):
@@ -24,7 +24,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-i", "--infile", help="input file", required=True)
-    # parser.add_argument("-o", "--outfile", help="output file", required=True)
+    #parser.add_argument("-o", "--outfile", help="output file", required=True)
     parser.add_argument("-T", "--threads", help="number of threads to run, default is 20",
                         nargs="?", const=1, type=int, default=default_threads)
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
@@ -34,8 +34,7 @@ def main():
         sys.exit(1)
     args = parser.parse_args()
 
-    # bar_disable = False
-    bar_disable = True
+    bar_disable = False
 
     if args.verbose:
         bar_disable = True
@@ -61,7 +60,7 @@ def main():
     for i in xrange(domain_len):
         args = [domains[i], pbar, i, output]
         pool.submit(do_thread_work, args)
-        # time.sleep(1)
+        time.sleep(1)
 
     pool.shutdown(wait=True)
 
