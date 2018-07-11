@@ -82,7 +82,7 @@ def site_scan(url, t, pbar, index, output):
     logging.debug("Connecting to %s" % url)
 
     try:
-        r = requests.get("http://" + url, timeout=t)
+        r = requests.get("http://" + url, timeout=t, allow_redirects=False)
         if r.status_code == 404:
             output[index] = "N - 404"
         else:
@@ -101,7 +101,7 @@ def site_scan(url, t, pbar, index, output):
 
     except requests.exceptions.SSLError:
         try:
-            r = requests.get("https://" + url, timeout=t)
+            r = requests.get("https://" + url, timeout=t, allow_redirects=False)
             if r.status_code == 404:
                 output[index] = "N - 404"
             else:
