@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
 Tool to perform mass DNS record queries. Requires: tqdm & dnspython
+Doesn't seem to work with SPF records...
 """
 import sys
 import logging
@@ -14,21 +15,24 @@ from tqdm import tqdm
 def do_thread_work(q):
     while True:
         args = q.get()
-        resolver(args[0], args[1], args[2], args[3], args[4])
+        resolver(args[0], args[1], args[2], args[3], args[4], args[5])
         q.task_done()
 
 
 def main():
 
     default_threads = 10
+    default_dns_server = "8.8.8.8"
 
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-i", "--infile", help="input file", required=True)
     parser.add_argument("-o", "--outfile", help="output file", required=True)
     parser.add_argument("-r", "--record-type", help="DNS record type to search for", required=True)
-    parser.add_argument("-T", "--threads", help="number of threads to run, default is 10",
+    parser.add_argument("-t", "--threads", help="number of threads to run, default is 10",
                         nargs="?", const=1, type=int, default=default_threads)
+    parser.add_argument("-s", "--server", help="DNS server to query, default is 8.8.8.8",
+                        nargs="?", default=default_dns_server)
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                         action="store_true")
     if len(sys.argv) == 1:
@@ -53,6 +57,9 @@ def main():
 
     print "Preparing to resolve %s %s records\n\n" % (str(len(domains)), args.record_type)
 
+    my_resolver = dns.resolver.Resolver()
+    my_resolver.nameservers = [args.server]
+
     q = Queue(maxsize=0)
 
     for i in range(args.threads):
@@ -63,7 +70,7 @@ def main():
     pbar = tqdm(total=domain_len, disable=bar_disable)
 
     for i in xrange(domain_len):
-        q.put([domains[i], pbar, args.record_type, i, output])
+        q.put([domains[i], pbar, args.record_type, i, output, my_resolver])
 
     q.join()
 
@@ -75,16 +82,16 @@ def main():
     print "\nFinished!"
 
 
-def resolver(host, pbar, record_type, index, output):
+def resolver(host, pbar, record_type, index, output, dns_resolver):
 
     logging.debug("Resolving DNS %s record for %s" % (record_type, host))
     try:
-        answers = dns.resolver.query(host, record_type)
+        answers = dns_resolver.query(host, record_type)
         for j in xrange(len(answers)):
             if (len(answers) > 1) & (j != len(answers) - 1):
-                output[index] += "%s, " % str(answers[j])[:-1]
+                output[index] += "%s, " % str(answers[j])
             else:
-                output[index] += "%s " % str(answers[j])[:-1]
+                output[index] += "%s " % str(answers[j])
 
     except dns.resolver.NoAnswer:
         logging.debug("Error: No Answer")

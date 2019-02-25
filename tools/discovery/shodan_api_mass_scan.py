@@ -1,32 +1,24 @@
 #!/usr/bin/env python
 """
-Quick tool to mass check ips and domains against Shodan. Requires: tqdm, futures & shodan
+Quick tool to mass check ips and domains against Shodan. Requires: tqdm & shodan
 """
 import sys
 import argparse
 import logging
-from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import shodan
 import time
 
-SHODAN_API_KEY = "INSERT_KEY_HERE"
-
-
-def do_thread_work(args):
-    shodan_scan(args[0], args[1], args[2], args[3])
+SHODAN_API_KEY = ""
 
 
 def main():
 
-    default_threads = 1
-
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-i", "--infile", help="input file", required=True)
-    #parser.add_argument("-o", "--outfile", help="output file", required=True)
-    parser.add_argument("-T", "--threads", help="number of threads to run, default is 20",
-                        nargs="?", const=1, type=int, default=default_threads)
+    parser.add_argument("-o", "--outfile", help="output file", required=True)
+    parser.add_argument("-d", "--delay", help="delay between requests", default=1)
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                         action="store_true")
     if len(sys.argv) == 1:
@@ -46,53 +38,47 @@ def main():
     domains = [x.strip() for x in domains]  # Strip whitespace and newline chars
     domain_len = len(domains)
 
-    # output = [""] * domain_len
-    # out_file = open(args.outfile, 'w+')
-
-    output = ""
+    out_file = open(args.outfile, 'w+')
 
     print "\nPreparing to check %s hosts\n" % str(len(domains))
-
-    pool = ThreadPoolExecutor(max_workers=args.threads)
 
     pbar = tqdm(total=domain_len, disable=bar_disable)
 
     for i in xrange(domain_len):
-        args = [domains[i], pbar, i, output]
-        pool.submit(do_thread_work, args)
-        time.sleep(1)
-
-    pool.shutdown(wait=True)
-
-    # for line in output[:-1]:
-    #     out_file.write(line)
-    #     out_file.write("\n")
-    # out_file.write(output[-1])
+        shodan_scan(domains[i], pbar, i, out_file, float(args.delay))
 
     print "\nFinished!"
 
+    out_file.close()
 
-def shodan_scan(i, pbar, index, output):
+
+def shodan_scan(i, pbar, index, out_file, delay):
 
     api = shodan.Shodan(SHODAN_API_KEY)
 
-    logging.debug("Checking Shodan for %s" % i)
+    logging.debug("Checking %s..." % i)
+
+    out_file.write("Results for %s:\n" % i)
 
     try:
+
+        time.sleep(delay)
+
         host = api.host(i)
 
         # Print general info
-        tqdm.write("IP: %s\nOrganization: %s\nOperating System: %s\n" % (host['ip_str'], host.get('org', 'n/a'), host.get('os', 'n/a')))
+        out_file.write("IP: %s\nOrganization: %s\nOperating System: %s\n" % (host['ip_str'], host.get('org', 'n/a'), host.get('os', 'n/a')))
 
         # Print all banners
         for item in host['data']:
-                tqdm.write("Port: %s\nBanner: %s" % (item['port'], item['data']))
+                out_file.write("Port: %s\nBanner: %s" % (item['port'], item['data'].encode('utf-8')))
 
-        tqdm.write("\n\n\n\n")
+        out_file.write("\n###############################################################\n")
 
     except shodan.exception.APIError as e:
         logging.debug("ERROR: %r" % str(e))
-        # output[index] = None
+        out_file.write(str(e))
+        out_file.write("\n###############################################################\n")
         pass
 
     pbar.update(1)

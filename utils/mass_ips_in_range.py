@@ -86,6 +86,11 @@ def ip_range_check(i, index, inside, outside, state_output, ranges):
 
     logging.debug("Checking %s" % i)
 
+# hack to work with csv
+    if "," in i:
+        i_tmp = i.split(",")
+        i = i_tmp[0]
+
     for j in ranges:
         if i in inside:
             state_output[index] = "Internal"

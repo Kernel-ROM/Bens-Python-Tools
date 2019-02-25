@@ -29,7 +29,7 @@ def main():
 
     default_threads = 20
 
-    # settimeout(10)
+    setdefaulttimeout(3)
 
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -61,16 +61,12 @@ def main():
 
     print "Preparing to analyse %s certs\n\n" % str(len(domains))
 
-    # pool = ThreadPoolExecutor(max_workers=args.threads)
-
     pbar = tqdm(total=domain_len, disable=bar_disable)
 
     with ThreadPoolExecutor(max_workers=args.threads) as e:
         for i in xrange(domain_len):
             args = [domains[i], pbar, i, output]
             e.submit(do_thread_work, args)
-
-    # pool.shutdown(wait=True)
 
     for line in output[:-1]:
         out_file.write(line)
@@ -85,6 +81,7 @@ def cert_scan(hostname, pbar, index, output):
 
     try:
 
+        pbar.update(1)
         cert = ssl.get_server_certificate((hostname, 443))  # Remove hardcoded port
         logging.debug("Got cert!")
         x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
@@ -110,21 +107,16 @@ def cert_scan(hostname, pbar, index, output):
                             output[index] += "%s" % str(sans[i])
 
     except socket.error:
-        #output[index] = "Connection refused - SSL not available or it isn't working."
+        output[index] = "Connection refused - SSL not available or it isn't working."
         logging.debug("Connection refused - SSL not available or it isn't working.")
-        pass
 
     except ssl.CertificateError as err:
         logging.debug(err)
-        #output[index] = "Connection refused - SSL not available or it isn't working."
-        pass
+        output[index] = "Connection refused - SSL not available or it isn't working."
 
     except Exception as err:
         logging.debug(err)
-        #output[index] = "Connection refused - SSL not available or it isn't working."
-        pass
-
-    pbar.update(1)
+        output[index] = "Connection refused - SSL not available or it isn't working."
 
 
 if __name__ == "__main__":
